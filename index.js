@@ -1,23 +1,25 @@
-//console.log("Node is Running...")
+const express = require('express');
+const connectDB = require('./Config/db');
+const cors = require('cors');
+const bodyParser = require('body-parser');
+const dotenv = require('dotenv');
+dotenv.config();
 
-const { default: mongoose } = require('mongoose');
-const app = require('./app');
-const port = 3001;
-const host = '127.0.0.1';
+const app = express();
+const PORT = process.env.PORT || 5000;
 
+// Connect to MongoDB
+connectDB();
 
-const server = app.listen(port,host, ()=>{
-    console.log(`Node Server is listening to ${server.address().port}`);
+// Middleware
+app.use(cors());
+app.use(bodyParser.json());
+
+// Routes
+app.use('/api/users', require('./routes/userRoutes'));
+app.use('/api/projects', require('./routes/projectRoutes'));
+app.use('/api/donations', require('./routes/donationRoutes'));
+
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
 });
-
-
-
-mongoose.connect("mongodb+srv://MrFernando:Aidora2024@aidora-web.rdpnbij.mongodb.net/?retryWrites=true&w=majority&appName=Aidora-Web")
-
-.then(()=>{
-    console.log("Database Connected");
-})
-
-.catch(err =>{
-    console.log("Database not Connected"+err);
-})
