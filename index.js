@@ -21,7 +21,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 // Routes
-app.use('/api/users', require('./Routes/userRoutes'));
+app.use("/api/users", require("./routes/userRoutes"));
 app.use('/api/projects', require('./Routes/projectRoutes'));
 app.use('/api/donations', require('./Routes/donationRoutes'));
 

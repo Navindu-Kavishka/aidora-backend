@@ -1,5 +1,5 @@
 const Donation = require('../Models/Donation');
-const Project = require('../Models/Project');
+const Project = require("../models/Project");
 const sendEmail = require("../Config/email");
 
 exports.donate = async (req, res) => {
