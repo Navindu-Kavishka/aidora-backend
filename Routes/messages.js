@@ -14,4 +14,9 @@ router.put('/:id', messageController.updateMessage);
 // Delete a message
 router.delete('/:id', messageController.deleteMessage);
 
+router.get('/test', (req, res) => {
+    res.status(200).json({ message: 'Test route' });
+  });
+  
+
 module.exports = router;
