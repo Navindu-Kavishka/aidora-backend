@@ -1,5 +1,5 @@
 const express = require('express');
-const connectDB = require('./config/db'); // Ensure the correct path
+const connectDB = require('./config/db'); // Ensure the correct path to your db.js
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const dotenv = require('dotenv');
@@ -16,6 +16,7 @@ app.use(bodyParser.json());
 app.use('/api/users', require('./routes/userRoutes'));
 app.use('/api/projects', require('./routes/projectRoutes'));
 app.use('/api/donations', require('./routes/donationRoutes'));
+app.use('/api/fundregister', require('./routes/fundRegisterRoutes')); // Ensure this matches the frontend call
 
 // Connect to MongoDB and start the server
 const startServer = async () => {

@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const projectController = require('../controllers/projectController');
-const auth = require("../Middleware/auth");
+const auth = require("../middleware/auth");
 const role = require('../middleware/role');
 
 router.post('/', auth, role('founder'), projectController.createProject);
