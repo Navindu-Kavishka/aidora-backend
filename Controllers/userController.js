@@ -40,7 +40,7 @@ exports.registerUser = async (req, res) => {
         const savedUser = await newUser.save();
 
         // Create JWT token
-        const token = jwt.sign({ id: savedUser._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        const token = jwt.sign({ id: savedUser._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
 
         // Log successful registration
         console.log("User successfully registered with email:", email);
