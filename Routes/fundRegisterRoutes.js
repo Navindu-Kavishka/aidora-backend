@@ -1,7 +1,10 @@
+// backend/routes/fundRegisterRoutes.js
 const express = require('express');
-const { fundregisterUser } = require('../controllers/fundRegisterController');
+const { registerFundraiser } = require('../Controllers/fundRegisterController');
+
 const router = express.Router();
 
-router.post('/frregister', fundregisterUser);
+// Register a new fundraiser
+router.post('/', registerFundraiser);
 
 module.exports = router;

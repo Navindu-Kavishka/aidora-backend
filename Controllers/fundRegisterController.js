@@ -1,45 +1,43 @@
-const User = require('../models/User');
+// Import necessary modules
+const FundRegister = require('../Models/FundRegister');
 const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const dotenv = require('dotenv');
-dotenv.config();
 
-exports.fundregisterUser = async (req, res) => {
-    const { firstName, lastName, email, companyName, address, phoneNumberCountryCode, phoneNumberRest, password, confirmPassword } = req.body;
+// Register a new fundraiser
+const registerFundraiser = async (req, res) => {
+    const { firstname, lastname, email, companyName, address, countryCode, number, password } = req.body;
 
-    if (password !== confirmPassword) {
-        return res.status(400).json({ message: 'Passwords do not match' });
-    }
+    console.log(firstname, lastname, email, companyName, address, countryCode, number, password);
 
     try {
-        // Check if user already exists
-        const userExists = await User.findOne({ email });
-        if (userExists) {
-            return res.status(400).json({ message: 'User already exists' });
+        const existingUser = await FundRegister.findOne({ email });
+        if (existingUser) {
+            return res.status(400).json({ message: 'Email already in use' });
         }
 
-        // Create new user
-        const newUser = new User({
-            firstName,
-            lastName,
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        const newFundraiser = new FundRegister({
+            firstname,
+            lastname,
             email,
             companyName,
             address,
-            phoneNumber: {
-                countryCode: phoneNumberCountryCode,
-                number: phoneNumberRest
-            },
-            password,
-            confirmPassword // Include confirmPassword for validation
+            countryCode,
+            number,
+            password: hashedPassword,
         });
+        console.log(newFundraiser);
+        
+        await newFundraiser.save();
 
-        const savedUser = await newUser.save();
-
-        // Create JWT token
-        const token = jwt.sign({ id: savedUser._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-
-        res.status(201).json({ token });
+       
+        res.status(201).json({ message: 'Fundraiser registered successfully' });
     } catch (error) {
+        console.error('Error registering fundraiser:', error);
         res.status(500).json({ message: 'Server error' });
     }
+};
+
+module.exports = {
+    registerFundraiser,
 };
