@@ -10,14 +10,17 @@ const PORT = process.env.PORT || 5000;
 
 
 
+const allowedOrigins = ['http://localhost:5173', 'http://localhost:5174'];
 app.use(cors({
-    origin: 'http://localhost:5173',   // frontend's URL
+    origin: function (origin, callback) {
+        if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
     credentials: true,
-  }));
-  
-
-// Middleware
-app.use(cors());
+}));
 app.use(bodyParser.json());
 
 // Routes
