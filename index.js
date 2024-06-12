@@ -22,9 +22,11 @@ app.use(bodyParser.json());
 
 // Routes
 app.use("/api/users", require("./routes/userRoutes"));
-app.use('/api/projects', require('./Routes/projectRoutes'));
-app.use('/api/donations', require('./Routes/donationRoutes'));
-app.use('/api/admin', require('./Routes/adminRoutes'));
+// app.use('/api/projects', require('./Routes/projectRoutes'));
+// app.use('/api/donations', require('./Routes/donationRoutes'));
+app.use("/api/auth", require("./Routes/authRoutes"));
+app.use("/api/donors", require("./Routes/donorRoutes"));
+ //app.use("/api/admin", require('./Routes/adminRoutes.js'));
 
 // Connect to MongoDB and start the server
 const startServer = async () => {
