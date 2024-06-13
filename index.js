@@ -23,7 +23,7 @@ try {
     app.use('/api/donations', require('./routes/donationRoutes'));
     app.use('/api/fundregisters', require('./routes/fundRegisterRoutes'));
     app.use('/api/fundregisters', require('./routes/fundLoginRoutes'));
-    app.use('/api/fundregisters', require('./Routes/fundprofileRoutes'));
+    app.use('/api/createprojects', require('./Routes/createProjectRoutes'));
 } catch (err) {
     console.error('Error while setting up routes:', err);
 }
@@ -43,7 +43,6 @@ const dropIndexIfNeeded = async () => {
 };
 
 
-// Connect to MongoDB and start the server
 const startServer = async () => {
     try {
         await connectDB();
