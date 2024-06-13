@@ -1,4 +1,4 @@
-// Import necessary modules
+
 const FundRegister = require('../Models/FundRegister');
 const bcrypt = require('bcryptjs');
 

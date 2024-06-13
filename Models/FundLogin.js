@@ -1,20 +1,21 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
 
 const { Schema } = mongoose;
 
-const fundLoginSchema = new Schema({
-  email: {
-    type: String,
-    required: true,
-    unique: true,
-    trim: true,
-  },
-  password: {
-    type: String,
-    required: true,
-  },
+const fundRegisterSchema = new Schema({
+    email: {
+        type: String,
+        required: true,
+        unique: true,
+        trim: true,
+    },
+    password: {
+        type: String,
+        required: true,
+    },
 });
 
-const FundLogin = mongoose.model('FundLogin', fundLoginSchema);
+const FundRegister = mongoose.model('FundRegister', fundRegisterSchema);
 
-module.exports = FundLogin;
+module.exports = FundRegister;

@@ -3,12 +3,10 @@ const bcrypt = require('bcryptjs');
 
 exports.loginUser = async (req, res) => {
     const { email, password } = req.body;
-    console.log(email);
 
     try {
         // Check if a user with the provided email exists
         const user = await FundRegister.findOne({ email });
-        console.log();
         if (!user) {
             return res.status(400).json({ message: 'Invalid credentials' });
         }
