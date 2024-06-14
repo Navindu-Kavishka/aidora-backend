@@ -21,8 +21,7 @@ try {
     app.use('/api/users', require('./routes/userRoutes'));
     app.use('/api/projects', require('./routes/projectRoutes'));
     app.use('/api/donations', require('./routes/donationRoutes'));
-    app.use('/api/fundregisters', require('./routes/fundRegisterRoutes'));
-    app.use('/api/fundregisters', require('./routes/fundLoginRoutes'));
+    app.use('/api/fundregisters', require('./Routes/fundRegisterRoutes'));
     app.use('/api/createprojects', require('./Routes/createProjectRoutes'));
 } catch (err) {
     console.error('Error while setting up routes:', err);

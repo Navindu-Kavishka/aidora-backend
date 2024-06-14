@@ -1,8 +1,8 @@
-// backend/models/FundRegister.js
 const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+const bcrypt = require('bcryptjs');
 
-const FundRegisterSchema = new mongoose.Schema({
-   
+const fundRegisterSchema = new Schema({
     firstname: {
         type: String,
         required: true,
@@ -18,7 +18,7 @@ const FundRegisterSchema = new mongoose.Schema({
     },
     companyName: {
         type: String,
-        required: true,
+        required: false,
     },
     address: {
         type: String,
@@ -36,6 +36,21 @@ const FundRegisterSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-}, { timestamps: true });
+});
 
-module.exports = mongoose.model('FundRegister', FundRegisterSchema);
+fundRegisterSchema.methods.toJSON = function() {
+    const user = this.toObject();
+    delete user.password;
+    return user;
+};
+
+fundRegisterSchema.pre('save', async function(next) {
+    if (this.isModified('password')) {
+        this.password = await bcrypt.hash(this.password, 10);
+    }
+    next();
+});
+
+const FundRegister = mongoose.model('FundRegister', fundRegisterSchema);
+
+module.exports = FundRegister;

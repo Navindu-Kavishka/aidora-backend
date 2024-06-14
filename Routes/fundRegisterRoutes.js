@@ -1,10 +1,10 @@
-// backend/routes/fundRegisterRoutes.js
 const express = require('express');
-const { registerFundraiser } = require('../Controllers/fundRegisterController');
-
 const router = express.Router();
+const {registerFundraiser,loginUser,updateProfile,getProfile} = require('../Controllers/fundRegisterController');
 
-// Register a new fundraiser
 router.post('/', registerFundraiser);
+router.post('/', loginUser);
+router.put('/', updateProfile);
+router.get('/', getProfile);
 
 module.exports = router;
