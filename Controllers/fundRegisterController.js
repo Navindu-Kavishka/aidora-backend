@@ -1,5 +1,6 @@
 const FundRegister = require('../Models/FundRegister');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 // Register a new fundraiser
 const registerFundraiser = async (req, res) => {
@@ -33,7 +34,8 @@ const registerFundraiser = async (req, res) => {
     }
 };
 
-// Login a user
+
+
 const loginUser = async (req, res) => {
     const { email, password } = req.body;
 
@@ -48,12 +50,21 @@ const loginUser = async (req, res) => {
             return res.status(400).json({ message: 'Invalid credentials' });
         }
 
-        res.status(200).json({ message: 'Login successful' });
+        // Generate JWT token
+        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+        res.status(200).json({ 
+            message: 'Login successful',
+            token,
+            userId: user._id
+        });
     } catch (error) {
         console.error('Error logging in user:', error);
         res.status(500).json({ message: 'Server error' });
     }
 };
+
+
 
 // Get user profile
 const getProfile = async (req, res) => {
@@ -97,9 +108,34 @@ const updateProfile = async (req, res) => {
     }
 };
 
+const updatePassword = async (req, res) => {
+    const { id } = req.params;
+    const { currentPassword, newPassword } = req.body;
+
+    try {
+        const user = await FundRegister.findById(id);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        const isCurrentPasswordValid = await bcrypt.compare(currentPassword, user.password);
+        if (!isCurrentPasswordValid) {
+            return res.status(400).json({ message: 'Current password is incorrect' });
+        }
+
+        user.password = await bcrypt.hash(newPassword, 10);
+        await user.save();
+
+        res.status(200).json({ message: 'Password updated successfully' });
+    } catch (error) {
+        console.error('Error updating password:', error);
+        res.status(500).json({ message: 'Server error' });
+    }
+};
 module.exports = {
     registerFundraiser,
     loginUser,
     getProfile,
     updateProfile,
+    updatePassword,
 };

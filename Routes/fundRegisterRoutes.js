@@ -1,10 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const {registerFundraiser,loginUser,updateProfile,getProfile} = require('../Controllers/fundRegisterController');
+const { registerFundraiser, loginUser, getProfile, updateProfile, updatePassword } = require('../Controllers/fundRegisterController');
+const authMiddleware = require('../Middleware/authMiddleware');
 
-router.post('/', registerFundraiser);
+router.post('/register', registerFundraiser);
 router.post('/', loginUser);
-router.put('/', updateProfile);
-router.get('/', getProfile);
+router.get('/profile/:id', authMiddleware, getProfile);
+router.put('/profile/:id', authMiddleware, updateProfile);
+router.put('/profile/:id/password', authMiddleware, updatePassword);
 
 module.exports = router;
