@@ -1,6 +1,7 @@
 const express = require('express');
 const connectDB = require('./Config/db'); // Ensure the correct path
 const cors = require('cors');
+const MessageRoutes = require('./routes/messages');
 const bodyParser = require('body-parser');
 const dotenv = require('dotenv');
 dotenv.config();
@@ -21,9 +22,12 @@ app.use(cors());
 app.use(bodyParser.json());
 
 // Routes
+
+app.use('/api/message',MessageRoutes);
 app.use("/api/users", require("./routes/userRoutes"));
 app.use('/api/projects', require('./Routes/projectRoutes'));
 app.use('/api/donations', require('./Routes/donationRoutes'));
+
 
 // Connect to MongoDB and start the server
 const startServer = async () => {
