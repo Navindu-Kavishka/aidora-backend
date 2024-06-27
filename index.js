@@ -1,9 +1,10 @@
 const express = require('express');
-const connectDB = require('./config/db'); // Assuming this file contains your database connection logic
+const connectDB = require('./config/db'); // Database connection logic
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const dotenv = require('dotenv');
-const FundRegister = require('./Models/FundRegister'); // Adjust the path as necessary
+const FundRegister = require('./Models/FundRegister'); // Adjust path as necessary
+const fundRegisterRoutes = require('./Routes/fundRegisterRoutes');
 
 dotenv.config();
 
@@ -19,7 +20,7 @@ try {
   app.use('/api/users', require('./routes/userRoutes')); // Example route for users
   app.use('/api/projects', require('./routes/projectRoutes')); // Example route for projects
   app.use('/api/donations', require('./routes/donationRoutes')); // Example route for donations
-  app.use('/api/fundregisters', require('./Routes/fundRegisterRoutes')); // Route for fund registers
+  app.use('/api/fundregisters', fundRegisterRoutes); // Route for fund registers
   app.use('/api/createprojects', require('./routes/createProjectRoutes')); // Example route for creating projects
 } catch (err) {
   console.error('Error while setting up routes:', err);
