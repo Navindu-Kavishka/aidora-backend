@@ -1,9 +1,8 @@
-// routes/createProjectRoutes.js
 const express = require('express');
 const router = express.Router();
-const {createProject} = require('../Controllers/createProjectController');
+const { createOrUpdateProject } = require('../Controllers/createProjectController'); // Ensure the correct path to the controller
 
-// POST /api/createprojects
-router.post('/', createProject);
+// Define the route for creating or updating a project
+router.post('/', createOrUpdateProject);
 
 module.exports = router;
