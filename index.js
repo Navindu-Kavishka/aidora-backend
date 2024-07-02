@@ -1,5 +1,5 @@
 const express = require('express');
-const connectDB = require('./Config/db'); // Ensure the correct path
+const connectDB = require('./Config/db'); 
 const cors = require('cors');
 const MessageRoutes = require('./routes/messages');
 const bodyParser = require('body-parser');
@@ -13,6 +13,9 @@ const PORT = process.env.PORT || 5000;
 
 const allowedOrigins = ['http://localhost:5173', 'http://localhost:5174'];
 app.use(cors({
+
+   // origin: 'http://localhost:5173',   // frontend URL
+
     origin: function (origin, callback) {
         if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
             callback(null, true);
@@ -20,11 +23,17 @@ app.use(cors({
             callback(new Error('Not allowed by CORS'));
         }
     },
+  //
+
     credentials: true,
 }));
 app.use(bodyParser.json());
 
 // Routes
+
+app.use("/api/donors", require("./Routes/donorRoutes"));
+ app.use("/api/admin", require('./Routes/adminRoutes.js'));
+
 
 app.use('/api/message',MessageRoutes);
 app.use("/api/users", require("./routes/userRoutes"));
